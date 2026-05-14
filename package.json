@@ -1,0 +1,32 @@
+{
+  "name": "assassinscreedguide",
+  "version": "1.0.0",
+  "description": "приложение на TypeScript гайд по игре assassins creed",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/web-coder2/assassinsCreedGuide.git"
+  },
+  "author": "w3b-c0d3r",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/web-coder2/assassinsCreedGuide/issues"
+  },
+  "homepage": "https://github.com/web-coder2/assassinsCreedGuide#readme",
+  "dependencies": {
+    "axios": "^1.16.1",
+    "body-parser": "^2.2.2",
+    "dayjs": "^1.11.20",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.2",
+    "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.8.0",
+    "typescript": "^6.0.3"
+  }
+}
