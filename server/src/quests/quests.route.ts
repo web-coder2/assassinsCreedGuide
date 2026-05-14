@@ -49,4 +49,4 @@ class QuestsRouter {
 
 const newQuestRouter = new QuestsRouter
 
-export default newQuestRouter.router
+export default newQuestRouter
