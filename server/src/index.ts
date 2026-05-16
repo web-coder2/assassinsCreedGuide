@@ -5,6 +5,8 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 
 import newQuestRouter from "./quests/quests.route"
+import newCommentsRoute from "./comments/comments.route"
+import newUsersRoute from "./users/users.route"
 
 dotenv.config()
 
@@ -22,6 +24,10 @@ server.use(bodyParser.json())
 
 // Подключение модулей
 server.use('/api/quests', newQuestRouter.router)
+server.use('/api/comments', newCommentsRoute.router)
+server.use('/api/users', newUsersRoute.router)
+
+// TODO написать потом мидлвар чтобы если нет /api/ то ретурнить index.html (скомпилированый vue)
 
 async function connectMongo() {
     try {
