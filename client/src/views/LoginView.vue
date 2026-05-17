@@ -51,6 +51,15 @@
 
 </template>
 
+<style>
+
+.nav-tabs .nav-link.active {
+    background-color:rgb(43, 41, 41);
+    color: #fff;
+    border-color: #343a40;
+}
+
+</style>
 
 <script>
 

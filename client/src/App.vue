@@ -1,10 +1,6 @@
-<script setup>
-  import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" v-if="showNavbar">
     <RouterLink to="/" class="navbar-brand">AssassinsCreed</RouterLink>
       
     <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Переключить навигацию">
@@ -13,8 +9,8 @@
       
     <div class="collapse navbar-collapse" id="navbarMenu" style="flex-direction: row-reverse;">
       <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <RouterLink to="/" class="nav-link">Home</RouterLink>
+          <li class="nav-item" v-for="(item, index) in arrayLinks">
+            <RouterLink :to="item.to" class="nav-link"><i :class="item.icon" class="mr-1"></i>{{ item.name }}</RouterLink>
           </li>
       </ul>
     </div>
@@ -25,3 +21,30 @@
   </div>
   
 </template>
+
+
+<script>
+
+  import { RouterLink, RouterView } from 'vue-router'
+
+  export default {
+    data() {
+      return {
+        arrayLinks: [
+          { to: '/', name: 'Home', icon: 'fas fa-home text-success' },
+          { to: '/login', name: 'Login', icon: 'fas fa-sign-in-alt text-warning' },
+        ],
+        showNavbar: null
+      }
+    },
+    watch: {
+      '$route'(to, from) {
+        this.showNavbar = to.path !== '/login'
+      }
+    },
+    mounted() {
+      this.showNavbar = this.$route.path !== '/login'
+    }
+  }
+
+</script>

@@ -19,7 +19,7 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   const user = store.state.userObject
   const userRank = store.state.userRank
 
@@ -27,15 +27,15 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresAuth) {
     if (!user) {
-      return next({ name: 'login' })
+      return { name: 'login' }
     } else {
       const allowedRanks = to.meta.allowedRanks || []
       if (allowedRanks.length && !allowedRanks.includes(userRank)) {
-        return next({ name: 'home' })
+        return { name: 'home' }
       }
     }
   }
-  next()
+  return true
 })
 
 export default router
