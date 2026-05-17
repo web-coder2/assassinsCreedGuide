@@ -4,7 +4,12 @@
   "description": "приложение на TypeScript гайд по игре assassins creed",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server:dev": "cd server && npm run dev",
+    "server:prod": "cd server && npm run start",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server:dev\" \"npm run client\"",
+    "prod": "concurrently \"npm run server:prod\" \"npm run client\""
   },
   "repository": {
     "type": "git",
