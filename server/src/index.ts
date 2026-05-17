@@ -5,6 +5,7 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 import path from 'path'
 import { Request, Response, NextFunction } from "express"
+import cors from 'cors'
 
 import newQuestRouter from "./quests/quests.route"
 import newCommentsRoute from "./comments/comments.route"
@@ -22,6 +23,7 @@ const port: number = 3000
 
 const server: Express = express()
 
+server.use(cors({ origin: '*' }))
 server.use(bodyParser.json())
 
 // Подключение модулей

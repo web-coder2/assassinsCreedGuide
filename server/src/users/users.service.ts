@@ -26,7 +26,7 @@ class UsersService {
             if (isUser) {
                 return isUser
             } else {
-                return `юзер с такими ${login} : ${password} не найден :(`
+                return false
             }
 
         } catch (e: any) {

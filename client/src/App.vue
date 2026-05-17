@@ -5,7 +5,7 @@
 <template>
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand">AssassinsCreed</a>
+    <RouterLink to="/" class="navbar-brand">AssassinsCreed</RouterLink>
       
     <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Переключить навигацию">
       <span class="navbar-toggler-icon"></span>
@@ -15,9 +15,6 @@
       <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <RouterLink to="/" class="nav-link">Home</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink to="/about" class="nav-link">About</RouterLink>
           </li>
       </ul>
     </div>

@@ -33,7 +33,13 @@ class UsersRoute {
     private userAuth = async (req: Request, res: Response) => {
         try {
             const result = await newUsersService.userAuth(req.body.login, req.body.password)
-            res.status(200).json({ result: result })
+
+            if (result === false) {
+                res.status(200).json({ message: 'юзер не найден' })
+            } else {
+                res.status(200).json({ result: result })
+            }
+
         } catch (e: any) {
             console.log(e.message)
             res.status(500).json({ err: e.message })
