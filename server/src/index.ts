@@ -3,6 +3,8 @@ import bodyParser from "body-parser"
 import dayjs from "dayjs"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
+import path from 'path'
+import { Request, Response, NextFunction } from "express"
 
 import newQuestRouter from "./quests/quests.route"
 import newCommentsRoute from "./comments/comments.route"
@@ -28,6 +30,19 @@ server.use('/api/comments', newCommentsRoute.router)
 server.use('/api/users', newUsersRoute.router)
 
 // TODO написать потом мидлвар чтобы если нет /api/ то ретурнить index.html (скомпилированый vue)
+server.use((req: Request, res: Response, next: NextFunction) => {
+
+    const reqQuery = req.path
+
+    if (reqQuery.includes('/api/')) {
+        console.log('Request path:', reqQuery);
+        next()
+    } else {
+        res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+        console.log('client interfface path: ', reqQuery)
+    }
+
+})
 
 async function connectMongo() {
     try {

@@ -5,7 +5,8 @@ const UsersSchema = new Schema({
 
     userName: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
 
     login: {
@@ -31,5 +32,6 @@ const UsersSchema = new Schema({
 })
 
 // TODO поставить индексы уникльности на связку login password
+UsersSchema.index({ login: 1, password: 1 }, { unique: true })
 
 export default model('Users', UsersSchema)
