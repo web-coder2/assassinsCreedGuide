@@ -59,6 +59,9 @@
                     </div>
                     <p class="mt-5">Враги: <strong class="text-danger">{{ fullQuestInfo.enimies }}</strong></p>
                 </div>
+
+                <!-- TODO добавить кнопка для лайка квеста и добавоения в любимые квесты -->
+
             </div>
 
         </div>
