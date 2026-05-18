@@ -75,7 +75,8 @@
                     login: '',
                     password: '',
                     createdAt: dayjs(new Date).format('YYYY-MM-DD'),
-                    userRank: 'user'
+                    userRank: 'user',
+                    lovingQuests: []
                 },
                 alert: {
                     visible: false,

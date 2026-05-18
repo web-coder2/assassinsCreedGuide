@@ -17,6 +17,7 @@ class UsersRoute {
         this.router.post('/setRank', this.setNewUserRank)
         this.router.post('/edit', this.editUser)
         this.router.get('/', this.getAll)
+        this.router.post('/addLoveQuest', this.addUserLovingQuest)
     }
 
     private createUser = async (req: Request, res: Response) => {
@@ -29,6 +30,15 @@ class UsersRoute {
         }
     }
 
+    private addUserLovingQuest = async (req: Request, res: Response) => {
+        try {
+            const result = await newUsersService.addLovingQuest(req.body.userId, req.body.newQuest)
+            res.status(200).json({ result: result })
+        } catch (e: any) {
+            console.log(e.message)
+            res.status(500).json({ err: e.message })
+        }
+    }
     
     private userAuth = async (req: Request, res: Response) => {
         try {

@@ -31,8 +31,9 @@
     data() {
       return {
         arrayLinks: [
-          { to: '/', name: 'Home', icon: 'fas fa-home text-success' },
-          { to: '/login', name: 'Login', icon: 'fas fa-sign-in-alt text-warning' },
+          { to: '/', name: 'Профиль', icon: 'fas fa-home text-success' },
+          { to: '/login', name: 'Выйти', icon: 'fas fa-sign-in-alt text-warning' },
+          { to: '/quests', name: 'Квесты', icon: 'fas fa-map-marker-alt text-danger' },
         ],
         showNavbar: null
       }

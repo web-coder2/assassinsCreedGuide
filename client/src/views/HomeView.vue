@@ -4,9 +4,9 @@
 
     <div class="mt-5 d-flex justify-content-between">
 
-      <div class="card bg-dark text-light col-sm-3" style="height: 250px;">
+      <div class="card text-light col-sm-3" style="height: 250px; background-color: rgb(17, 17, 17);">
         <div class="card-header">
-          <h3 class="text-warning">Карта юзера</h3>
+          <h3 class="text-warning">Профиль юзера</h3>
         </div>
         <div class="card-body">
           <h4>Ник: <span class="text-primary">{{ userName }}</span></h4>
@@ -21,7 +21,7 @@
         <h4 class="text-center">Любимые квесты</h4>
         <hr class="bg-primary">
         <div class="p-3">
-          <div class="card m-3" style="background-color: rgb(17, 17, 17);" v-for="(quest, index) in mockQuests">
+          <div class="card m-3 p-3" style="background-color: rgb(17, 17, 17);" v-for="(quest, index) in mockQuests">
               <h5 class="text-center">{{ quest.title }}</h5>
               <hr class="bg-danger">
               <p class="text-success">{{ quest.description }}</p>

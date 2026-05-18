@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, Types, model } from 'mongoose'
 import dayjs from 'dayjs'
 
 const UsersSchema = new Schema({
@@ -27,6 +27,17 @@ const UsersSchema = new Schema({
     userRank: {
         type: String,
         enum: ['user', 'admin', 'dev']
+    },
+
+    lovingQuests: {
+        type: [{
+            questId: {
+                type: Schema.Types.ObjectId,
+                ref: 'Quests'
+            },
+            title: String,
+            shortDescription: String
+        }]
     }
 
 })

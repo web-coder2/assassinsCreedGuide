@@ -15,6 +15,38 @@ class UsersService {
         }
     }
 
+    public async addLovingQuest(userId: string, quest: any) {
+        try {
+
+            const userInfo = await usersModel.findOne({
+                _id: userId
+            })
+
+            if (userInfo) {
+                const userLovingQuests = userInfo.lovingQuests
+                userLovingQuests.push(quest)
+
+                const result = usersModel.findOneAndUpdate(
+                    { _id: userId },
+                    { 
+                        $set: {
+                            lovingQuests: userLovingQuests
+                        } 
+                    },
+                    { upsert: true }
+                )
+
+                return result
+            } else {
+                return `юзера с таким id ${userId} нет`
+            }
+
+        } catch (e: any) {
+            console.log(e.message)
+            return null
+        }
+    }
+
     public async userAuth(login: string, password: string) {
         try {
 
