@@ -15,6 +15,20 @@ class UsersService {
         }
     }
 
+    public async getLovingQuests(userId: any) {
+        try {
+            const user = await usersModel.findOne({
+                _id: userId
+            })
+
+            const data = user ? user.lovingQuests : []
+            return data
+        } catch (e: any) {
+            console.log(e.message)
+            return null
+        }
+    }
+
     public async addLovingQuest(userId: string, quest: any) {
         try {
 

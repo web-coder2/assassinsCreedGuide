@@ -46,6 +46,9 @@
 
 
             <div v-if="fullQuestInfo && !isCreate">
+
+                <div v-if="alert.visible" class="alert" :class="alert.type" role="alert">{{ alert.message }}</div>
+
                 <h4 class="text-light">Информация по миссии <strong class="text-success">{{ fullQuestInfo.title }}</strong></h4>
                 <p class="text-warning">В этой миссии будет {{ fullQuestInfo.description }}</p>
                 <p class="text-light">миссия проходится в {{ fullQuestInfo.questArea }}</p>
@@ -58,6 +61,11 @@
                         <p>Награда: <strong class="text-success">{{ adden.prize }}</strong></p>
                     </div>
                     <p class="mt-5">Враги: <strong class="text-danger">{{ fullQuestInfo.enimies }}</strong></p>
+                </div>
+
+                <div class="d-flex mt-5">
+                    <button class="btn btn-danger" :disabled="lovingQuestsIds.includes(fullQuestInfo._id)" @click="setLikeQuest(this.fullQuestInfo)">Like</button>
+                    <h4 v-if="lovingQuestsIds.includes(fullQuestInfo._id)" class="text-success ml-3">Уже добавлена в списоклюбимых квестов</h4>
                 </div>
 
                 <!-- TODO добавить кнопка для лайка квеста и добавоения в любимые квесты -->
@@ -77,6 +85,7 @@
         data() {
             return {
                 questsArray: [],
+                lovingQuestsIds: [],
                 isCreate: false,
                 newQuest: {
                     title: '',
@@ -86,7 +95,12 @@
                     additionalQuests: []
                 },
                 fullQuestInfo: null,
-                userId: null
+                userId: null,
+                alert: {
+                    visible: false,
+                    message: '',
+                    type: null
+                }
             }
         },
         methods: {
@@ -122,6 +136,51 @@
                     console.log(e.message)
                 }
             },
+            async getLovingQuests() {
+                try {
+                    const response = await this.$store.dispatch('getDataList', {
+                        col: 'users/getLoveQuests',
+                        params: {
+                            userId: this.userId
+                        }
+                    })
+                    response.data.forEach((quest) => {
+                        this.lovingQuestsIds.push(quest._id)
+                    })
+                } catch (e) {
+                    console.log(e.message)
+                }
+            },
+            async setLikeQuest(item) {
+                try {
+                    const response = await this.$store.dispatch('createDataList', {
+                        col: 'users/addLoveQuest',
+                        data: {
+                            userId: this.userId,
+                            newQuest: item
+                        }
+                    })
+
+                    this.alert = {
+                        visible: true,
+                        message: 'Квест успешно добавлен в любимые',
+                        type: 'alert-primary'
+                    }
+
+                } catch (e) {
+                    console.log(e.message)
+
+                    this.alert = {
+                        visible: true,
+                        message: `ошибка добавления квеста ${e.message}`,
+                        type: 'alert-danger'
+                    }
+                }
+
+                setTimeout(() => {
+                    this.alert.visible = false
+                }, 2000)
+            },
             readFullQuestInfo(item) {
                 this.isCreate = false
                 this.fullQuestInfo = item
@@ -139,6 +198,7 @@
         },
         async beforeMount() {
             this.userId = this.$store.getters['getUserId']
+            await this.getLovingQuests()
             await this.getAllQuests()
         }
     }
