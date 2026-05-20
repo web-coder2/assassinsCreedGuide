@@ -68,7 +68,20 @@
                     <h4 v-if="lovingQuestsIds.includes(fullQuestInfo._id)" class="text-success ml-3">Уже добавлена в списоклюбимых квестов</h4>
                 </div>
 
-                <!-- TODO добавить кнопка для лайка квеста и добавоения в любимые квесты -->
+                <div class="mt-5 text-light">
+                    <h3>Можно оставить коментарий</h3>
+                    <textarea class="form-control bg-dark text-light" v-model="newComment" placeholder="commentary"></textarea>
+                    <button class="btn btn-success mt-3" @click="setNewComment">Сохранить</button>
+
+                    <div class="container-fluid mt-5">
+                        <div class="bg-dark text-light p-3 mt-3" v-for="(comment) in allComments">
+                            <h4>{{ comment.username }}</h4>
+                            <p>{{ comment.comment }} - {{ comment.datedAt }}</p>
+                            <button class="btn btn-warning mt-1" @click="setLikeComment(comment._id)">likes: {{ comment.countLikes }}</button>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -80,6 +93,8 @@
 
 
 <script>
+
+    import dayjs from 'dayjs'
 
     export default {
         data() {
@@ -95,7 +110,10 @@
                     additionalQuests: []
                 },
                 fullQuestInfo: null,
+                newComment: '',
+                allComments: [],
                 userId: null,
+                userName: null,
                 alert: {
                     visible: false,
                     message: '',
@@ -151,6 +169,51 @@
                     console.log(e.message)
                 }
             },
+            async getComments(questId) {
+                try {
+                    const response = await this.$store.dispatch('getDataList', {
+                        col: 'comments/comments',
+                        params: {
+                            questId: questId
+                        }
+                    })
+                    this.allComments = response.data
+                } catch (e) {
+                    console.log(e.message)
+                }
+            },
+            async setLikeComment(commentId) {
+                try {
+                    const response = await this.$store.dispatch('createDataList', {
+                        col: 'comments/like',
+                        data: {
+                            commentId: commentId
+                        }
+                    })
+                } catch (e) {
+                    console.log(e.message)
+                }
+            },
+            async setNewComment() {
+                try {
+                    const response = await this.$store.dispatch('createDataList', {
+                        col: 'comments/create',
+                        data: {
+                            data: {
+                                username: this.userName,
+                                datedAt: dayjs(new Date).format('YYYY-MM-DD'),
+                                questId: this.fullQuestInfo._id,
+                                comment: this.newComment,
+                                countLikes: 0
+                            }
+                        }
+                    })
+                    this.newComment = ''
+                    await this.getComments(this.fullQuestInfo._id)
+                } catch (e) {
+                    console.log(e.message)
+                }
+            },
             async setLikeQuest(item) {
                 try {
                     const response = await this.$store.dispatch('createDataList', {
@@ -181,9 +244,11 @@
                     this.alert.visible = false
                 }, 2000)
             },
-            readFullQuestInfo(item) {
+            async readFullQuestInfo(item) {
                 this.isCreate = false
                 this.fullQuestInfo = item
+
+                await this.getComments(item._id)
             },
             addNewMiniMission() {
                 this.newQuest.additionalQuests.push({
@@ -198,6 +263,7 @@
         },
         async beforeMount() {
             this.userId = this.$store.getters['getUserId']
+            this.userName = this.$store.getters['getUserName']
             await this.getLovingQuests()
             await this.getAllQuests()
         }

@@ -16,7 +16,7 @@ class CommentsService {
         }
     }
 
-    public async getCommentsByQuest(questId: string) {
+    public async getCommentsByQuest(questId: any) {
         try {
             const comments = await commentsModel.find({
                 questId: questId
@@ -28,7 +28,7 @@ class CommentsService {
         }
     }
 
-    public async setNewCommentLike(commentId: string) {
+    public async setNewCommentLike(commentId: any) {
         try {
             const commentObject = await commentsModel.findOne({
                 _id: commentId

@@ -39,7 +39,7 @@ class CommentsRoute {
 
     private getComments = async(req: Request, res: Response) => {
         try {
-            const data = await newCommentsService.getCommentsByQuest(req.body.questId)
+            const data = await newCommentsService.getCommentsByQuest(req.query.questId)
             res.status(200).json({ data })
         } catch (e: any) {
             console.log(e.message)
