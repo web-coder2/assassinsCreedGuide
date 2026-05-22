@@ -16,6 +16,7 @@ class QuestsRouter {
         this.router.get('/', this.getAll)
         this.router.get('/title', this.getByTitle)
         this.router.post('/create', this.createQuest)
+        this.router.post('/edit', this.editQuest)
     }
 
     private getAll = async (req: Request, res: Response) => {
@@ -39,6 +40,15 @@ class QuestsRouter {
     private createQuest = async (req: Request, res: Response) => {
         try {
             const result: any = await newQuestService.createQuest(req.body.data)
+            res.status(200).json({ result })
+        } catch (e: any) {
+            res.status(500).json({ error: e.message })
+        }
+    }
+
+    private editQuest = async (req: Request, res: Response) => {
+        try {
+            const result: any = await newQuestService.editQuest(req.body.newData, req.body.questId)
             res.status(200).json({ result })
         } catch (e: any) {
             res.status(500).json({ error: e.message })

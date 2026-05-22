@@ -32,9 +32,11 @@
       return {
         arrayLinks: [
           { to: '/', name: 'Профиль', icon: 'fas fa-home' },
-          { to: '/login', name: 'Выйти', icon: 'fas fa-sign-in-alt' },
           { to: '/quests', name: 'Квесты', icon: 'fas fa-map-marker-alt' },
           { to: '/admin', name: 'Админка', icon: 'fas fa-star' },
+          { to: '/editer', name: 'Редактор', icon: 'fas fa-map' },
+          { to: '/login', name: 'Выйти', icon: 'fas fa-sign-in-alt' },
+
         ],
         showNavbar: null
       }

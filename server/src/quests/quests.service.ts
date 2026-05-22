@@ -20,6 +20,14 @@ class QuestService {
         return newQuest.save()
     }
 
+    public async editQuest(newData: any, questId: string) {
+        return await questsModel.findOneAndUpdate(
+            { _id: questId },
+            { $set: newData },
+            { upsert: true }
+        )
+    }
+
 }
 
 const newQuestService = new QuestService()
