@@ -36,6 +36,7 @@
           { to: '/admin', name: 'Админка', icon: 'fas fa-star' },
           { to: '/editer', name: 'Редактор', icon: 'fas fa-map' },
           { to: '/login', name: 'Выйти', icon: 'fas fa-sign-in-alt' },
+          { to: '/timeline', name: 'Версии', icon: 'fas fa-clock' },
 
         ],
         showNavbar: null

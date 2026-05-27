@@ -31,6 +31,11 @@ const router = createRouter({
       name: 'editer',
       component: () => import('../views/EditerView.vue')
     },
+    {
+      path: '/timeline',
+      name: 'timeline',
+      component: () => import('../views/VersionsView.vue')
+    },
   ],
 })
 
