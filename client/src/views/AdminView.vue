@@ -37,6 +37,17 @@
         </div>
     </div>
 
+    <div class="container-fluid mt-5">
+        <h5 class="text-warning">Добавить новую версию форума</h5>
+        <div class="form-group col-sm-4 mt-5">
+            <input class="form-control bg-dark text-light" v-model="newVersionObject.versionName" placeholder="название версии">
+            <input class="form-control bg-dark text-light mt-3" v-model="newVersionObject.versionDescription" placeholder="что сделано">
+            <input class="form-control bg-dark text-light mt-3" v-model="newVersionObject.versionDate" type="date" placeholder="Дата сделаной версии">
+            <input class="form-control bg-dark text-light mt-3" v-model="newVersionObject.versionProde" placeholder="эпическая версия ?">
+            <button class="btn btn-outline-danger mt-3 btn-block" @click="addNewVersion">Добавить</button>
+        </div>
+    </div>
+
 </template>
 
 <script>
@@ -52,6 +63,12 @@
                     visible: false,
                     message: '',
                     type: null
+                },
+                newVersionObject: {
+                    versionName: '',
+                    versionDate: dayjs(new Date).format('YYYY-MM-DD'),
+                    versionDescription: '',
+                    versionProde: ''
                 }
             }
         },
@@ -63,6 +80,27 @@
                         params: {}
                     })
                     this.usersList = response.result
+                } catch (e) {
+                    console.log(e.message)
+                }
+            },
+            async addNewVersion() {
+                try {
+                    const response = await this.$store.dispatch('createDataList', {
+                        col: 'versions/create',
+                        data: {
+                            data: this.newVersionObject
+                        }
+                    })
+
+                    this.newVersionObject = {
+                        versionName: '',
+                        versionDate: dayjs(new Date).format('YYYY-MM-DD'),
+                        versionDescription: '',
+                        versionProde: ''
+                    }
+
+                    alert('версия добавлена успешно')
                 } catch (e) {
                     console.log(e.message)
                 }

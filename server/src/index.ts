@@ -10,6 +10,7 @@ import cors from 'cors'
 import newQuestRouter from "./quests/quests.route"
 import newCommentsRoute from "./comments/comments.route"
 import newUsersRoute from "./users/users.route"
+import newVersionsRoute from "./versions/versions.route"
 
 dotenv.config()
 
@@ -30,6 +31,7 @@ server.use(bodyParser.json())
 server.use('/api/quests', newQuestRouter.router)
 server.use('/api/comments', newCommentsRoute.router)
 server.use('/api/users', newUsersRoute.router)
+server.use('/api/versions', newVersionsRoute.router)
 
 // TODO написать потом мидлвар чтобы если нет /api/ то ретурнить index.html (скомпилированый vue)
 server.use((req: Request, res: Response, next: NextFunction) => {
