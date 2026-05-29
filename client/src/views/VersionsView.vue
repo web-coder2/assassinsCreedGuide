@@ -7,8 +7,24 @@
     export default {
         data() {
             return {
-                title: 'timeline of versions development forum'
+                versionsData: []
             }
+        },
+        methods: {
+            async fetchVersionsData() {
+                try {
+                    const response = await this.$store.dispatch('getDataList', {
+                        col: 'versions/versionsList',
+                        params: {}
+                    })
+                    this.versionsData = response.data.data
+                } catch (e) {
+                    console.log(e.message)
+                }
+            }
+        },
+        async beforeMount() {
+            await this.fetchVersionsData()
         }
     }
 
