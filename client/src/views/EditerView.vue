@@ -1,59 +1,131 @@
 <template>
-
-    <h3 class="text-light">Редактор игровых квестов</h3>
-
-    <div class="container-fluid mt-5 row d-flex">
-
-        <div class="col-sm-4 p-3" style="background-color: black;">
-            <div class="card text-light m-3" v-for="(quest, idx) in questsArr" style="background-color: rgb(15, 15, 15);">
+    <div class="editor-container">
+      <h3 class="title">Редактор игровых квестов</h3>
+      <div class="row d-flex flex-wrap">
+        
+        <div class="col-sm-4 p-3" style="background-color: transparent;">
+            <div class="card quest-card mb-4" v-for="(quest, idx) in questsArr" :key="quest._id">
                 <div class="card-header">
                     <h3 class="text-center">{{ quest.title }}</h3>
                 </div>
-                <div class="card-body" style="background-color: rgb(10, 10, 10);">
-                    <h5 class="text-warning">{{ quest._id }}</h5>
+                <div class="card-body">
+                    <h5 class="text-warning mb-2">{{ quest._id }}</h5>
                 </div>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-between">
-                        <button class="btn btn-outline-danger" @click="setEditQuest(quest)">Изменеить</button>
-                        <button class="btn btn-outline-warning" @click="setEditQuest(quest)">отменить изменения</button>
+                    <div class="card-footer d-flex justify-content-between">
+                        <button class="btn btn-outline-primary" @click="setEditQuest(quest)">Изменить</button>
+                        <button class="btn btn-outline-danger" @click="setEditQuest(quest)">Удалить изменения</button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-sm-6 offset-sm-1 p-3" style="background-color: black;">
-
-            <div v-if="alert.visible" class="alert mt-5" :class="alert.type" role="alert">{{ alert.message }}</div>
-
-            <div v-if="editQuestObject" class="card" style="background-color: rgb(15, 15, 15);">
-                <div class="card-header">
-                    <h3 class="text-center text-light">Изменение квеста {{ editQuestObject._id }}</h3>
+        
+            <div class="col-sm-6 offset-sm-1 p-3" style="background-color: transparent;">
+                <div v-if="alert.visible" class="alert" :class="alert.type" role="alert">
+                    {{ alert.message }}
                 </div>
-                <div class="card-body p-5" style="background-color: rgb(10, 10, 10);">
-                    <h3 class="text-center text-success">Изменить параметры квеста</h3>
-                    <input class="form-control bg-dark text-light mt-4" placeholder="title" v-model="editQuestObject.title">
-                    <textarea class="form-control bg-dark text-light mt-4" rows="5" placeholder="descrption" v-model="editQuestObject.description"></textarea>
-                    <input class="form-control bg-dark text-light mt-4" placeholder="questArea" v-model="editQuestObject.questArea">
-                    <input class="form-control bg-dark text-light mt-4" placeholder="enimies" v-model="editQuestObject.enimies">
-                    <div class="mt-2">
-                        <div class="mt-3 p-4" style="border: solid 2px purple; border-radius: 15px;" v-for="(miniQuest, idx) in editQuestObject.additionalQuests">
-                            <input class="form-control bg-dark text-light mt-1" v-model="miniQuest.title" placeholder="miniTitle">
-                            <input class="form-control bg-dark text-light mt-1" v-model="miniQuest.description" placeholder="description">
-                            <input class="form-control bg-dark text-light mt-1" v-model="miniQuest.prize" placeholder="prize">
-                            <button @click="deleteMiniQuest(idx)" class="btn btn-outline-danger mt-4">delete</button>
+            
+                <div v-if="editQuestObject" class="card quest-edit-card">
+                    <div class="card-header">
+                        <h3 class="text-center text-light">Изменение квеста {{ editQuestObject._id }}</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <h3 class="text-center text-success mb-4">Изменить параметры квеста</h3>
+                        <input class="form-control mb-3 bg-dark text-light" placeholder="title" v-model="editQuestObject.title"/>
+                        <textarea class="form-control mb-3 bg-dark text-light" rows="5" placeholder="description" v-model="editQuestObject.description"></textarea>
+                        <input class="form-control mb-3 bg-dark text-light" placeholder="questArea" v-model="editQuestObject.questArea"/>
+                        <input class="form-control mb-3 bg-dark text-light" placeholder="enemies" v-model="editQuestObject.enemies"/>
+                        <div class="mini-quests p-3 mb-4" v-for="(miniQuest, idx) in editQuestObject.additionalQuests" :key="idx">
+                            <input class="form-control mb-2 bg-dark text-light" v-model="miniQuest.title" placeholder="Mini Title"/>
+                            <input class="form-control mb-2 bg-dark text-light" v-model="miniQuest.description" placeholder="Description"/>
+                            <input class="form-control mb-2 bg-dark text-light" v-model="miniQuest.prize" placeholder="Prize" />
+                            <button class="btn btn-outline-danger btn-sm mt-2" @click="deleteMiniQuest(idx)">Удалить мини-задание</button>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-outline-primary mt-5" @click="addNewMiniQuest">add one mini</button>
-                            <button class="btn btn-outline-success mt-5" @click="saveEditObject">save editObject</button>
+                            <button class="btn btn-outline-primary" @click="addNewMiniQuest">Добавить мини-задание</button>
+                            <button class="btn btn-outline-success" @click="saveEditObject">Сохранить</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
+      </div>
     </div>
-
 </template>
+
+<style>
+
+    .editor-container {
+        padding: 30px;
+        background-color: #000;
+        min-height: 100vh;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .title {
+        color: #0f0;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2em;
+        text-shadow: 0 0 5px #0f0;
+    }
+
+    .quest-card {
+        background-color: rgb(15, 15, 15);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(15, 255, 15, 0.3);
+        border: 1px solid #0f0;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .quest-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 15px rgba(15, 255, 15, 0.5);
+    }
+    .card-header h3 {
+        margin: 0;
+    }
+    .card-body {
+        background-color: rgb(10, 10, 10);
+    }
+    .card-footer {
+        background-color: rgb(15, 15, 15);
+    }
+
+    .alert {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    .alert-warning {
+        background-color: #222;
+        color: #ff0;
+        box-shadow: 0 0 10px #ff0;
+    }
+    .alert-danger {
+        background-color: #222;
+        color: #f00;
+        box-shadow: 0 0 10px #f00;
+    }
+
+    .quest-edit-card {
+        background-color: rgb(15, 15, 15);
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        border: 1px solid #0f0;
+    }
+    .mini-quests {
+        background-color: rgb(20, 20, 20);
+        border: 1px solid #0f0;
+        border-radius: 8px;
+    }
+    .mini-quests input {
+        border: none;
+        border-bottom: 1px solid #0f0;
+        border-radius: 0;
+    }
+    .mini-quests input:focus {
+        outline: none;
+        box-shadow: 0 0 8px #0f0;
+    }
+</style>
 
 
 <script>
